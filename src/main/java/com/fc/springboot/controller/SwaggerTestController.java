@@ -1,6 +1,6 @@
-package com.fc.springboot.springbootdemo.controller;
+package com.fc.springboot.controller;
 
-import com.fc.springboot.springbootdemo.model.*;
+import com.fc.springboot.model.*;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,28 +23,25 @@ public class SwaggerTestController {
     @ApiOperation("根据用户id数组集获得用户集合信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name="userIds", value="用户ID数组集", required=true, paramType="query" ,allowMultiple=true, dataType = "String"),
-            @ApiImplicitParam(name="idMap", value="用户IDMap", required=true, paramType="body" ,allowMultiple=false, dataType = "Map",dataTypeClass = Map.class),
     })
-    @GetMapping("/ids-user-list")
-    public Map<String,Person> getUserList(HttpServletRequest request,String[] userIds,@RequestBody Map<Snow,Person> idMap) {
-        HashMap<String, Person> objectObjectHashMap = new HashMap<>();
-        return objectObjectHashMap;
+    @GetMapping("/ids_user_list")
+    public Map<String,Person> getUserList(HttpServletRequest request,String[] userIds) {
+        return new HashMap<>();
     }
 
     @ApiOperation("query cherry and result mapping")
     @ApiImplicitParam(name="cherryIds", value="用户ID数组集", required=true, paramType="query" ,allowMultiple=true, dataType = "String")
     @GetMapping("/cherryIds")
-    public Map<Cherry,String> getCherryResultMapping(HttpServletRequest request,String[] cherryIds) {
+    public Map<Cherry,String> getCherryResultMapping(HttpServletRequest request, String[] cherryIds) {
         HashMap<Cherry,String> objectObjectHashMap = new HashMap<>(16);
         return objectObjectHashMap;
     }
 
     @ApiOperation(value = "批量删除购物车明细")
-    @DeleteMapping("/goods-")
+    @DeleteMapping("/deleteGoods")
     @ApiImplicitParam(name="shopCartIds",value = "商品shopCartIds",required = true,allowMultiple = false,dataType = "Goods",paramType="query",dataTypeClass = Goods.class)
     public List<String> delete(@ApiParam(value = "商品shopCartIds") @RequestParam("shopCartIds") List<Goods> shopCartIds) {
-        ArrayList<String> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>();
     }
 
     @ApiOperation(value = "batch query person")
@@ -55,17 +52,17 @@ public class SwaggerTestController {
         return objects;
     }
 
-    @RequestMapping(value="/500",consumes = "application/json",method = RequestMethod.POST)
+    @RequestMapping(value="/multiFive",consumes = "application/json",method = RequestMethod.POST)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "openid", value = "openid", required = false, dataType = "String",paramType="header"),
             @ApiImplicitParam(paramType = "header", dataType = "String", name = "Content-Type", value = "content type", required = true),
-            @ApiImplicitParam(name = "jsonData", value = "jsonData", required = false, dataType = "User",paramType = "body",dataTypeClass = User.class),
+            @ApiImplicitParam(name = "user", value = "user", required = false, dataType = "User",paramType = "body",dataTypeClass = User.class),
             @ApiImplicitParam(name="userIds", value="用户ID数组集", required=true, paramType="body" ,allowMultiple=true, dataType = "String"),
             @ApiImplicitParam(name="nameList", value="用户 info  list", required=true, paramType="body" ,allowMultiple=true, dataType = "Person",dataTypeClass = Person.class),
             @ApiImplicitParam(name="longList", value="test Long  list", required=true, paramType="query" ,allowMultiple=true, dataType = "Long",dataTypeClass = Long.class),
             @ApiImplicitParam(name="razer", value="razer class def", required=true, paramType="body" ,allowMultiple=false, dataType = "Razer",dataTypeClass = Razer.class),
     })
-    public Result serverError(@RequestBody User jsonData,String[] userIds,@RequestBody List<Person> nameList,List<Long> longList, @RequestBody Razer razer){
+    public Result serverError(@RequestBody User user, String[] userIds, @RequestBody List<Person> nameList, List<Long> longList, @RequestBody Razer razer){
         Result result = new Result();
         result.setId(111);
         result.setType("param in header");
@@ -75,10 +72,10 @@ public class SwaggerTestController {
         return result;
     }
 
-    @RequestMapping(value = "/xxx",consumes = "application/json")
+    @RequestMapping(value = "/xxx",consumes = "application/json",method = RequestMethod.POST)
     @ApiImplicitParam(name = "user", value = "user data", required = false, dataType = "User",paramType = "body",dataTypeClass = User.class)
-    public String xxxy(@RequestBody User jsonData){
-        return "abc";
+    public Report<Person> xxxy(@RequestBody User user){
+        return Report.ofSuccess(new Person());
     }
 
 

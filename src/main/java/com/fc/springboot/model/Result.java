@@ -1,4 +1,4 @@
-package com.fc.springboot.springbootdemo.model;
+package com.fc.springboot.model;
 
 import java.util.List;
 
